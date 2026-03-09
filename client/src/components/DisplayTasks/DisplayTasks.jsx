@@ -4,8 +4,7 @@ import { Table } from 'react-bootstrap';
 import { CircularProgress, Card, CardContent, Typography } from '@mui/material';
 import axios from 'axios';
 import styles from './DisplayTasks.module.css';
-const local_url = 'http://localhost:5500/api/item';
-const base_url = process.env.REACT_APP_BASE_URL;
+const base_url = process.env.REACT_APP_BASE_URL || 'http://localhost:5500/api/item';
 
 
 const DisplayTasks = () => {
@@ -16,7 +15,7 @@ const DisplayTasks = () => {
 
     const deleteTask = async (id) => {
         try {
-            const res = await axios.delete(`${local_url}/${id}`);
+            const res = await axios.delete(`${base_url}/${id}`);
             const newTaskList = taskList.filter(curr => curr._id !== id);
             setTaskList(newTaskList);
         } catch (err) {
@@ -27,8 +26,7 @@ const DisplayTasks = () => {
     useEffect(() => {
         const getallTasks = async () => {
             try {
-                const res = await axios.get(`${local_url}`);
-                //console.log(res.data);
+                const res = await axios.get(`${base_url}`);
                 setTaskList(res.data);
                 setFetch(true);
             } catch (err) {
@@ -40,82 +38,45 @@ const DisplayTasks = () => {
 
     const Loading = () => {
         return(
-            <div className='text-center'>
-                <CircularProgress/>
-            </div>
+            <CircularProgress />
         )
     }
 
     const NoTasks = () => {
         return(
-            <div className={styles.noTasks}>
-                <Card >
-                    <CardContent>
-                        <Typography variant='h5' component='div' className='text-center'>
-                            No Tasks To Do 🎆
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </div>
+            <Card>
+                <CardContent>
+                    <Typography>No Tasks To Do 🎆</Typography>
+                </CardContent>
+            </Card>
         )
     }
 
     return (
-        <div className={styles.content}>
-            <div className='container'>
-                <h1 className={`text-center ${styles.heading}`}>Task List</h1>
-                <div className={styles.addBtn}>
-                    <Link to="/addTask">
-                        <button className="btn btn-primary">Add Task</button>
-                    </Link>
-                </div>
-                <div>
-                    <form>
-                        <div className="form-group mb-2">
-                            <input
-                                type="text"
-                                placeholder="Search task"
-                                name="search"
-                                className="form-control"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    {fetch === false ? (Loading()) : taskList && taskList.length > 0 ? (
-                        <Card>
-                            <CardContent className={styles.tableCardContent}>
-                                <Table responsive="sm" className="table-bordered">
-                                    <thead>
-                                        <tr className='text-center'>
-                                            <th>Task</th>
-                                            <th>Action</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {taskList.filter(curr => curr.item.toLowerCase().includes(search)).map((curr) => (
-                                            <tr key={curr._id}>
-                                                <td className={styles.col}>{curr.item}</td>
-                                                <td className='text-center'>
-                                                    <Link to={`/updateTask/${curr._id}`}>
-                                                        <button className="btn btn-info">Update</button>
-                                                    </Link>
-                                                </td>
-                                                <td className='text-center'>
-                                                    <button className="btn btn-danger" onClick={() => { deleteTask(curr._id) }}>Delete</button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    ) : (NoTasks())}
-                </div>
-            </div>
+        <div className={styles.container}>
+            <Typography variant='h4'>Task List</Typography>
+            <Link to='/add'> Add Task</Link>
+            <input type='text' placeholder='Search task' name='search' className='form-control' value={search} onChange={(e) => setSearch(e.target.value)} />
+            {fetch === false ? (Loading()) : taskList && taskList.length > 0 ? (
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Action</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {taskList.filter(curr => curr.item.toLowerCase().includes(search)).map((curr) => (
+                            <tr key={curr._id}>
+                                <td>{curr.item}</td>
+                                <td><Link to={`/update/${curr._id}`}>Update</Link></td>
+                                <td><button onClick={() => { deleteTask(curr._id) }}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            ) : (NoTasks())}
         </div>
     )
 }
