@@ -1,9 +1,8 @@
 import DisplayTasks from './components/DisplayTasks/DisplayTasks';
 import SubmitTask from './components/SubmitTask/SubmitTask';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-
 function App() {
   return (
     <BrowserRouter>
@@ -15,5 +14,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;
