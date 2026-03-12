@@ -1,20 +1,90 @@
-.content{
-    max-width: 700px;
-    margin: 16px auto;
+.content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
-.heading{
-    font-family: sans-serif, Georgia, 'Times New Roman', Times, serif;
+
+.heading {
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 700;
+  color: #3f51b5;
+  margin-bottom: 8px;
 }
-.addBtn{
-    margin: 8px auto;
+
+.addBtn {
+  margin: 10px 0 14px;
 }
-.col{
-    width: 60%;
+
+.addBtn a {
+  display: inline-block;
+  background: #3f51b5;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
 }
-.noTasks{
-    max-width: 60%;
-    margin: auto;
+
+.addBtn a:hover {
+  background: #303f9f;
 }
-.tableCardContent{
-    padding-bottom: 8px !important;
+
+.col {
+  width: 60%;
+}
+
+.noTasks {
+  max-width: 60%;
+  margin: auto;
+  color: #777;
+  font-style: italic;
+}
+
+.tableCardContent {
+  padding-bottom: 8px !important;
+}
+
+.deleteBtn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.deleteBtn:hover {
+  background: #b71c1c;
+}
+
+.updateLink {
+  color: #3f51b5;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.updateLink:hover {
+  text-decoration: underline;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 14px;
+  margin-bottom: 14px;
+  border: 1px solid #c5cae9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.searchInput:focus {
+  border-color: #3f51b5;
 }
