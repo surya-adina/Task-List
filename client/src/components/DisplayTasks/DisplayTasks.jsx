@@ -35,57 +35,59 @@ const DisplayTasks = () => {
     getAllTasks();
   }, []);
 
-  if (fetch === false) return <CircularProgress />;
-
-  if (!taskList || taskList.length === 0) {
-    return (
-      <div className={styles.content}>
-        <Typography variant="h4" className={styles.heading}>Task List</Typography>
-        <div className={styles.addBtn}><Link to="/addTask">Add Task</Link></div>
-        <Card>
-          <CardContent className={styles.tableCardContent}>
-            <Typography className={styles.noTasks}>No Tasks To Do</Typography>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  if (fetch === false) return <CircularProgress style={{ display: 'block', margin: '60px auto' }} />;
 
   return (
     <div className={styles.content}>
       <Typography variant="h4" className={styles.heading}>Task List</Typography>
-      <div className={styles.addBtn}><Link to="/addTask">Add Task</Link></div>
-      <input
-        type="text"
-        placeholder="Search task"
-        className="form-control"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <Card>
-        <CardContent className={styles.tableCardContent}>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th className={styles.col}>Task</th>
-                <th>Action</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {taskList
-                .filter(curr => curr.item.toLowerCase().includes(search.toLowerCase()))
-                .map((curr) => (
-                  <tr key={curr._id}>
-                    <td>{curr.item}</td>
-                    <td><Link to={'/updateTask/' + curr._id}>Update</Link></td>
-                    <td><button onClick={() => deleteTask(curr._id)}>Delete</button></td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
-        </CardContent>
-      </Card>
+      <div className={styles.addBtn}>
+        <Link to="/addTask">+ Add Task</Link>
+      </div>
+      {taskList.length > 0 && (
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          className={styles.searchInput}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      )}
+      {!taskList || taskList.length === 0 ? (
+        <Card variant="outlined" style={{ borderRadius: 8, marginTop: 8 }}>
+          <CardContent className={styles.tableCardContent}>
+            <Typography className={styles.noTasks}>No tasks yet. Add one above!</Typography>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card variant="outlined" style={{ borderRadius: 8 }}>
+          <CardContent className={styles.tableCardContent}>
+            <Table hover>
+              <thead style={{ backgroundColor: '#e8eaf6' }}>
+                <tr>
+                  <th className={styles.col}>Task</th>
+                  <th style={{ width: '120px', textAlign: 'center' }}>Update</th>
+                  <th style={{ width: '100px', textAlign: 'center' }}>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {taskList
+                  .filter(curr => curr.item.toLowerCase().includes(search.toLowerCase()))
+                  .map((curr) => (
+                    <tr key={curr._id}>
+                      <td style={{ verticalAlign: 'middle' }}>{curr.item}</td>
+                      <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <Link to={'/updateTask/' + curr._id} className={styles.updateLink}>Edit</Link>
+                      </td>
+                      <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <button className={styles.deleteBtn} onClick={() => deleteTask(curr._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
